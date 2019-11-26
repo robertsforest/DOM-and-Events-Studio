@@ -10,6 +10,8 @@ let up = null;
 let down = null;
 let rocket = null;
 let height = null;
+let startingLeft = "45%";
+let startingTop = "40%";
 
 window.addEventListener("load", function() {
     console.log("window has loaded");
@@ -23,6 +25,8 @@ window.addEventListener("load", function() {
     down = document.getElementById("down");
     rocket = document.getElementById("rocket");
     height = document.getElementById("spaceShuttleHeight");
+    rocket.style.left = startingLeft;
+    rocket.style.top = startingTop;
 
     takeoff.addEventListener("click", function() {
         console.log("takeoff has been clicked")
@@ -40,6 +44,9 @@ window.addEventListener("load", function() {
             flightStatus.innerHTML = "The shuttle has landed.";
             document.getElementById("shuttleBackground").style.backgroundColor = "green";
             height.innerHTML = 0;
+            //reset position
+            rocket.style.left = startingLeft;
+            rocket.style.top = startingTop;
         }
     });
 
@@ -49,29 +56,46 @@ window.addEventListener("load", function() {
             flightStatus.innerHTML = "Mission aborted";
             document.getElementById("shuttleBackground").style.backgroundColor = "green";
             height.innerHTML = 0;
+            //reset position
+            rocket.style.left = startingLeft;
+            rocket.style.top = startingTop;
         }
     });
 
     left.addEventListener("click", function() {
         //console.log("left has been clicked");
-        rocket.style.left = String(Number(rocket.style.left.slice(0,-2)) - 10)+ "px";
+        let percentLeft = Number(rocket.style.left.slice(0,-1));
+        if(percentLeft > 0){
+            rocket.style.left = String(percentLeft - 1) + "%";
+        }
     });
 
     right.addEventListener("click", function() {
         //console.log("right has been clicked");
-       rocket.style.left = String(Number(rocket.style.left.slice(0,-2)) + 10)+ "px";
+        let percentLeft = Number(rocket.style.left.slice(0,-1));
+        if(percentLeft < 90){
+            rocket.style.left = String(percentLeft + 1) + "%";
+        }
     });
 
     up.addEventListener("click", function() {
         //console.log("up has been clicked");
-        height.innerHTML = Number(height.innerHTML) + 10000;
-        rocket.style.top = String(Number(rocket.style.top.slice(0,-2)) - 10)+ "px";
+        let percentTop = Number(rocket.style.top.slice(0,-1));
+        if(percentTop > 2){
+            height.innerHTML = Number(height.innerHTML) + 10000;
+            rocket.style.top = String(percentTop - 2)+ "%";
+        }
+
     });
 
     down.addEventListener("click", function() {
         //console.log("down has been clicked");
-        height.innerHTML = Number(height.innerHTML) - 10000;
-        rocket.style.top = String(Number(rocket.style.top.slice(0,-2)) + 10)+ "px";
+        let percentTop = Number(rocket.style.top.slice(0,-1));
+        if(percentTop < 80) {
+            height.innerHTML = Number(height.innerHTML) - 10000;
+            rocket.style.top = String(percentTop + 2)+ "%";
+        }
+        
     });
 
     //emulate clicks with arrow keys or WASD
